@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Справочники{% endblock %}
+
+{% block content %}
+    <h1>Справочники</h1>
+
+    <section class="mb-5">
+        <h2>Статусы</h2>
+        <ul class="list-group">
+            {% for status in statuses %}
+                <li class="list-group-item">{{ status.name }}</li>
+            {% empty %}
+                <li class="list-group-item text-muted">Нет статусов</li>
+            {% endfor %}
+        <a href="{% url 'catalog:add_status' %}" class="btn btn-success mb-3">Добавить статус</a>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Типы → Категории → Подкатегории</h2>
+        {% for t in types %}
+            <div class="mb-4">
+                <h3>{{ t.name }}</h3>
+                {% if t.categories.all %}
+                    <ul class="list-group">
+                        {% for cat in t.categories.all %}
+                            <li class="list-group-item">
+                                <strong>
+                                    {{ cat.name }}
+                                </strong>
+                                {% if cat.subcategories.all %}
+                                    <ul class="mt-2">
+                                        {% for sub in cat.subcategories.all %}
+                                            <li>
+                                                {{ sub.name }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <div class="text-muted small">Нет подкатегорий</div>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="text-muted small">Нет категорий</div>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p class="text-muted">Нет типов</p>
+        {% endfor %}
+    <a href="{% url 'catalog:add_type' %}" class="btn btn-success mb-3">Добавить тип</a>
+    <a href="{% url 'catalog:add_category' %}" class="btn btn-success mb-3">Добавить категорию</a>
+    <a href="{% url 'catalog:add_subcategory' %}" class="btn btn-success mb-3">Добавить подкатегорию</a>
+    </section>
+{% endblock %}
