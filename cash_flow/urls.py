@@ -24,5 +24,5 @@ urlpatterns = [
 	path('accounts/', include('accounts.urls')),
 	path('transactions/', include('transactions.urls', namespace='transactions')),
 	path('catalog/', include('catalog.urls', namespace='catalog')),
-	path('', RedirectView.as_view(pattern_name='transactions:list', permanent=False))
+	path('', RedirectView.as_view(pattern_name='accounts:login', permanent=False))
 ]
